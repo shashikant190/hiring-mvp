@@ -6,14 +6,14 @@
 
   <hr>
 
-  {% for a in applicants %}
-    <div class="applicant">
-      <b>{{ a.name }}</b><br><br>
-      <b>Skills:</b> {{ a.skills }}<br>
-      <b>Availability:</b> {{ a.availability }}<br>
-      <b>Proof:</b> {{ a.proof }}
-    </div>
-  {% else %}
-    <p>No applicants yet.</p>
-  {% endfor %}
+{% for a in applicants %}
+  <div class="card">
+    <b>{{ a.name }}</b> ({{ a.country }})<br>
+    Email: {{ a.email }}<br>
+    GitHub: {{ a.github }}<br>
+    Skills: {{ a.skills }}<br>
+    Availability: {{ a.availability }}<br>
+    Proof: {{ a.proof }}
+  </div>
+{% endfor %}
 </div>

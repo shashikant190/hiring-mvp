@@ -7,7 +7,7 @@ class Job(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String)
     description = Column(Text)
-    secret = Column(String, unique=True)  # private access key
+    secret = Column(String, unique=True)
 
 
 class Applicant(Base):
@@ -15,7 +15,12 @@ class Applicant(Base):
 
     id = Column(Integer, primary_key=True)
     job_id = Column(Integer, ForeignKey("jobs.id"))
+
     name = Column(String)
+    email = Column(String)
+    country = Column(String)
+    github = Column(String)
+
     skills = Column(Text)
     availability = Column(String)
     proof = Column(String)

@@ -88,6 +88,9 @@ def submit_application(
     job_id: int,
     request: Request,
     name: str = Form(...),
+    email: str = Form(...),
+    country: str = Form(...),
+    github: str = Form(""),
     skills: str = Form(...),
     availability: str = Form(...),
     proof: str = Form("")
@@ -96,14 +99,14 @@ def submit_application(
 
     job = db.query(Job).filter_by(id=job_id).first()
     if not job:
-        return HTMLResponse(
-            "<h2>Job not found</h2>",
-            status_code=404
-        )
+        return HTMLResponse("<h2>Job not found</h2>", status_code=404)
 
     applicant = Applicant(
         job_id=job_id,
         name=name,
+        email=email,
+        country=country,
+        github=github,
         skills=skills,
         availability=availability,
         proof=proof
@@ -113,14 +116,25 @@ def submit_application(
     db.commit()
 
     return HTMLResponse(
-        """
-        <link rel="stylesheet" href="/static/style.css">
-        <div class="container">
-            <h2>Application submitted ✅</h2>
-            <p>Thank you for applying. The hiring client will review your application.</p>
-        </div>
-        """
-    )
+    """
+    <link rel="stylesheet" href="/static/style.css">
+    <div class="container">
+      <h2>Application submitted...</h2>
+      <p>Thank you for applying. You will be redirected shortly.</p>
+      <p>If you are not redirected, click below.</p>
+
+      <a href="https://www.reddit.com" class="button">Return to Reddit</a>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        window.location.href = "https://www.reddit.com";
+      }, 3000);
+    </script>
+    """
+)
+
+
 
 
 # ---------------------------

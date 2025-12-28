@@ -1,25 +1,58 @@
-<link rel="stylesheet" href="/static/style.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Apply for {{ job.title }}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
 
 <div class="container">
-  <h2>Apply for: {{ job.title }}</h2>
-  <p>{{ job.description }}</p>
 
-  <hr>
-
-  <form method="post">
-    <input name="name" placeholder="Your name" required>
-
-    <textarea name="skills" placeholder="Your skills" required></textarea>
-
-    <input name="availability" placeholder="Hours per day" required>
-
-    <input name="proof" placeholder="Portfolio / proof (optional)">
-
-    <button type="submit">Submit Application</button>
-  </form>
-
-  <div class="note">
-    This application goes directly to the hiring client.<br>
-    Please apply only if you’re genuinely interested.
+  <!-- ABOUT THIS HIRING -->
+  <div class="card">
+    <h2>About this hiring</h2>
+    <p>
+      This application is being collected on behalf of a hiring client.
+      All applications are reviewed directly by the client.
+    </p>
+    <p>
+      Please apply only if you are genuinely interested and available for the role.
+    </p>
   </div>
+
+  <!-- APPLICATION FORM -->
+  <div class="card">
+    <h2>Apply for: {{ job.title }}</h2>
+    <p>{{ job.description }}</p>
+
+    <hr>
+
+    <form method="post">
+      <input name="name" placeholder="Full name" required>
+
+      <input name="email" type="email" placeholder="Email address" required>
+
+      <input name="country" placeholder="Country" required>
+
+      <input name="github" placeholder="GitHub profile (optional)">
+
+      <textarea name="skills" placeholder="Your skills & experience" required></textarea>
+
+      <input name="availability" placeholder="Hours per day available" required>
+
+      <input name="proof" placeholder="Portfolio / proof (optional)">
+
+      <button type="submit">Submit application</button>
+    </form>
+  </div>
+
+  <!-- TRUST NOTE -->
+  <div class="note">
+    This form helps organize applications so the hiring client can review them efficiently.
+  </div>
+
 </div>
+
+</body>
+</html>
