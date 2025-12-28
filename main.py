@@ -45,8 +45,10 @@ def create_job(
     db.commit()
     db.refresh(job)
 
-    apply_link = f"/apply/{job.id}"
-    admin_link = f"/applicants/{job.id}?secret={secret}"
+    base_url = str(request.base_url).rstrip("/")
+
+    apply_link = f"{base_url}/apply/{job.id}"
+    admin_link = f"{base_url}/applicants/{job.id}?secret={secret}"
 
     return templates.TemplateResponse(
         "create_job.html",
@@ -111,7 +113,13 @@ def submit_application(
     db.commit()
 
     return HTMLResponse(
-        "<h2>Application submitted ✅</h2><p>You can close this page.</p>"
+        """
+        <link rel="stylesheet" href="/static/style.css">
+        <div class="container">
+            <h2>Application submitted ✅</h2>
+            <p>Thank you for applying. The hiring client will review your application.</p>
+        </div>
+        """
     )
 
 
