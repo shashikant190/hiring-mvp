@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="/static/style.css">
+
+<div class="container">
+<h2>Apply for: {{ job.title }}</h2>
+<p>{{ job.description }}</p>
+<hr>
+
+
+  <form method="post">
+    <input name="name" placeholder="Your name" required>
+    <br><br>
+
+    <textarea name="skills" placeholder="Your skills" required></textarea>
+    <br><br>
+
+    <input name="availability" placeholder="Hours per day" required>
+    <br><br>
+
+    <input name="proof" placeholder="Portfolio / proof (optional)">
+    <br><br>
+
+    <button>Apply</button>
+  </form>
+</div>

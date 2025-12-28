@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="/static/style.css">
+
+<div class="container">
+  <h2>Create a job</h2>
+
+  <form method="post" action="/create-job">
+    <input name="title" placeholder="Job title" required>
+    <br><br>
+
+    <textarea name="description" placeholder="Describe the work" required></textarea>
+    <br><br>
+
+    <button>Create job</button>
+  </form>
+
+  {% if apply_link %}
+    <hr>
+    <p><b>Share with freelancers:</b></p>
+    <div class="link-box">{{ apply_link }}</div>
+
+    <br>
+
+    <p><b>Your private link:</b></p>
+    <div class="link-box">{{ admin_link }}</div>
+  {% endif %}
+</div>
