@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey
 from db import Base
 
+
 class Job(Base):
     __tablename__ = "jobs"
 
@@ -24,3 +25,11 @@ class Applicant(Base):
     skills = Column(Text)
     availability = Column(String)
     proof = Column(String)
+
+
+class PageView(Base):
+    __tablename__ = "page_views"
+
+    id = Column(Integer, primary_key=True)
+    job_id = Column(Integer, ForeignKey("jobs.id"))
+    count = Column(Integer, default=0)

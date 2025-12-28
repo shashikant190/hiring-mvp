@@ -9,19 +9,17 @@
 
 <div class="container">
 
-  <!-- ABOUT THIS HIRING -->
   <div class="card">
     <h2>About this hiring</h2>
     <p>
       This application is being collected on behalf of a hiring client.
-      All applications are reviewed directly by the client.
+      Applications are reviewed directly by the client.
     </p>
     <p>
-      Please apply only if you are genuinely interested and available for the role.
+      Please apply only if you are genuinely interested and available.
     </p>
   </div>
 
-  <!-- APPLICATION FORM -->
   <div class="card">
     <h2>Apply for: {{ job.title }}</h2>
     <p>{{ job.description }}</p>
@@ -30,24 +28,16 @@
 
     <form method="post">
       <input name="name" placeholder="Full name" required>
-
       <input name="email" type="email" placeholder="Email address" required>
-
       <input name="country" placeholder="Country" required>
-
       <input name="github" placeholder="GitHub profile (optional)">
-
       <textarea name="skills" placeholder="Your skills & experience" required></textarea>
-
       <input name="availability" placeholder="Hours per day available" required>
-
       <input name="proof" placeholder="Portfolio / proof (optional)">
-
       <button type="submit">Submit application</button>
     </form>
   </div>
 
-  <!-- TRUST NOTE -->
   <div class="note">
     This form helps organize applications so the hiring client can review them efficiently.
   </div>

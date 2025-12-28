@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 import secrets
 
 from db import SessionLocal, engine
-from models import Base, Job, Applicant
+from models import Base, Job, Applicant, PageView
 
 from fastapi.staticfiles import StaticFiles
 
@@ -21,9 +21,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # ---------------------------
 @app.get("/", response_class=HTMLResponse)
 def create_job_form(request: Request):
-    return templates.TemplateResponse(
-        "create_job.html", {"request": request}
-    )
+    return templates.TemplateResponse("create_job.html", {"request": request})
 
 
 @app.post("/create-job", response_class=HTMLResponse)
@@ -36,11 +34,7 @@ def create_job(
 
     secret = secrets.token_urlsafe(8)
 
-    job = Job(
-        title=title,
-        description=description,
-        secret=secret
-    )
+    job = Job(title=title, description=description, secret=secret)
     db.add(job)
     db.commit()
     db.refresh(job)
@@ -69,17 +63,19 @@ def apply_form(job_id: int, request: Request):
 
     job = db.query(Job).filter_by(id=job_id).first()
     if not job:
-        return HTMLResponse(
-            "<h2>Job not found</h2><p>This job does not exist.</p>",
-            status_code=404
-        )
+        return HTMLResponse("<h2>Job not found</h2>", status_code=404)
+
+    view = db.query(PageView).filter_by(job_id=job_id).first()
+    if not view:
+        db.add(PageView(job_id=job_id, count=1))
+    else:
+        view.count += 1
+
+    db.commit()
 
     return templates.TemplateResponse(
         "apply.html",
-        {
-            "request": request,
-            "job": job
-        }
+        {"request": request, "job": job}
     )
 
 
@@ -116,25 +112,23 @@ def submit_application(
     db.commit()
 
     return HTMLResponse(
-    """
-    <link rel="stylesheet" href="/static/style.css">
-    <div class="container">
-      <h2>Application submitted...</h2>
-      <p>Thank you for applying. You will be redirected shortly.</p>
-      <p>If you are not redirected, click below.</p>
+        """
+        <link rel="stylesheet" href="/static/style.css">
+        <div class="container">
+          <h2>Application submitted...</h2>
+          <p>Thank you for applying.</p>
+          <p>You will be redirected to Reddit shortly.</p>
 
-      <a href="https://www.reddit.com" class="button">Return to Reddit</a>
-    </div>
+          <a href="https://www.reddit.com" class="button">Return to Reddit</a>
+        </div>
 
-    <script>
-      setTimeout(() => {
-        window.location.href = "https://www.reddit.com";
-      }, 3000);
-    </script>
-    """
-)
-
-
+        <script>
+          setTimeout(() => {
+            window.location.href = "https://www.reddit.com";
+          }, 3000);
+        </script>
+        """
+    )
 
 
 # ---------------------------
@@ -150,19 +144,19 @@ def view_applicants(
 
     job = db.query(Job).filter_by(id=job_id, secret=secret).first()
     if not job:
-        return HTMLResponse(
-            "<h2>Unauthorized</h2><p>Invalid or missing secret.</p>",
-            status_code=403
-        )
+        return HTMLResponse("<h2>Unauthorized</h2>", status_code=403)
 
     applicants = db.query(Applicant).filter_by(job_id=job_id).all()
+    view = db.query(PageView).filter_by(job_id=job_id).first()
+    page_views = view.count if view else 0
 
     return templates.TemplateResponse(
         "applicants.html",
         {
             "request": request,
             "job": job,
-            "applicants": applicants
+            "applicants": applicants,
+            "page_views": page_views
         }
     )
 
