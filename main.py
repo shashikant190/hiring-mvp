@@ -9,7 +9,6 @@ from models import Base, Job, Applicant, PageView
 
 from fastapi.staticfiles import StaticFiles
 
-Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
